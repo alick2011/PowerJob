@@ -47,7 +47,6 @@ public class WorkflowDAG {
         private Long nodeId;
 
         private Long jobId;
-
         private String jobName;
         /**
          * 运行时信息

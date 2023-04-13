@@ -70,139 +70,152 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <!-- 发布到中央仓库，需要使用 mvn xxx -Prelease 启用 -->
-        <profile>
-            <id>release</id>
-            <build>
-                <plugins>
-                    <!-- 编译插件 -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>${maven-compiler-plugin.version}</version>
-                        <configuration>
-                            <source>${java.version}</source>
-                            <target>${java.version}</target>
-                            <testSource>${java.version}</testSource>
-                            <testTarget>${java.version}</testTarget>
-                        </configuration>
-                    </plugin>
-                    <!-- Package source codes -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>${maven-source-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <!-- 编辑 MANIFEST.MF -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <version>${maven-jar-plugin.version}</version>
-                        <configuration>
-                            <archive>
-                                <manifestEntries>
-                                    <Implementation-Title>${project.artifactId}</Implementation-Title>
-                                    <Implementation-Version>${project.version}</Implementation-Version>
-                                </manifestEntries>
-                            </archive>
-                        </configuration>
-                    </plugin>
-                    <!-- Java Doc -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>${maven-javadoc-plugin.version}</version>
-                        <configuration>
-                            <!-- Prevent JavaDoc error from affecting building project. -->
-                            <failOnError>false</failOnError>
-                            <!-- Non-strict mode -->
-                            <additionalJOption>-Xdoclint:none</additionalJOption>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <!-- GPG -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>${maven-gpg-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
+<!--    <profiles>-->
+<!--        &lt;!&ndash; 发布到中央仓库，需要使用 mvn xxx -Prelease 启用 &ndash;&gt;-->
+<!--        <profile>-->
+<!--            <id>release</id>-->
+<!--            <build>-->
+<!--                <plugins>-->
+<!--                    &lt;!&ndash; 编译插件 &ndash;&gt;-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                        <version>${maven-compiler-plugin.version}</version>-->
+<!--                        <configuration>-->
+<!--                            <source>${java.version}</source>-->
+<!--                            <target>${java.version}</target>-->
+<!--                            <testSource>${java.version}</testSource>-->
+<!--                            <testTarget>${java.version}</testTarget>-->
+<!--                        </configuration>-->
+<!--                    </plugin>-->
+<!--                    &lt;!&ndash; Package source codes &ndash;&gt;-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-source-plugin</artifactId>-->
+<!--                        <version>${maven-source-plugin.version}</version>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <phase>package</phase>-->
+<!--                                <goals>-->
+<!--                                    <goal>jar-no-fork</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
+<!--                    &lt;!&ndash; 编辑 MANIFEST.MF &ndash;&gt;-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-jar-plugin</artifactId>-->
+<!--                        <version>${maven-jar-plugin.version}</version>-->
+<!--                        <configuration>-->
+<!--                            <archive>-->
+<!--                                <manifestEntries>-->
+<!--                                    <Implementation-Title>${project.artifactId}</Implementation-Title>-->
+<!--                                    <Implementation-Version>${project.version}</Implementation-Version>-->
+<!--                                </manifestEntries>-->
+<!--                            </archive>-->
+<!--                        </configuration>-->
+<!--                    </plugin>-->
+<!--                    &lt;!&ndash; Java Doc &ndash;&gt;-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--                        <version>${maven-javadoc-plugin.version}</version>-->
+<!--                        <configuration>-->
+<!--                            &lt;!&ndash; Prevent JavaDoc error from affecting building project. &ndash;&gt;-->
+<!--                            <failOnError>false</failOnError>-->
+<!--                            &lt;!&ndash; Non-strict mode &ndash;&gt;-->
+<!--                            <additionalJOption>-Xdoclint:none</additionalJOption>-->
+<!--                        </configuration>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <phase>package</phase>-->
+<!--                                <goals>-->
+<!--                                    <goal>jar</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
+<!--                    &lt;!&ndash; GPG &ndash;&gt;-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-gpg-plugin</artifactId>-->
+<!--                        <version>${maven-gpg-plugin.version}</version>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <phase>verify</phase>-->
+<!--                                <goals>-->
+<!--                                    <goal>sign</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
+<!--                </plugins>-->
+<!--            </build>-->
 
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>ossrh</id>
-                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-                </snapshotRepository>
-                <repository>
-                    <id>ossrh</id>
-                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                </repository>
-            </distributionManagement>
-        </profile>
+<!--            <distributionManagement>-->
+<!--                <snapshotRepository>-->
+<!--                    <id>ossrh</id>-->
+<!--                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>-->
+<!--                </snapshotRepository>-->
+<!--                <repository>-->
+<!--                    <id>ossrh</id>-->
+<!--                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+<!--                </repository>-->
+<!--            </distributionManagement>-->
+<!--        </profile>-->
 
-        <!-- Local profile -->
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+<!--        &lt;!&ndash; Local profile &ndash;&gt;-->
+<!--        <profile>-->
+<!--            <id>dev</id>-->
+<!--            <activation>-->
+<!--                <activeByDefault>true</activeByDefault>-->
+<!--            </activation>-->
 
-            <build>
-                <plugins>
-                    <!-- Maven compiler plugin -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>${maven-compiler-plugin.version}</version>
-                        <configuration>
-                            <source>${java.version}</source>
-                            <target>${java.version}</target>
-                            <testSource>${java.version}</testSource>
-                            <testTarget>${java.version}</testTarget>
-                        </configuration>
-                    </plugin>
-                    <!-- Edit MANIFEST.MF -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <version>${maven-jar-plugin.version}</version>
-                        <configuration>
-                            <archive>
-                                <manifestEntries>
-                                    <Implementation-Title>${project.artifactId}</Implementation-Title>
-                                    <Implementation-Version>${project.version}</Implementation-Version>
-                                </manifestEntries>
-                            </archive>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+<!--            <build>-->
+<!--                <plugins>-->
+<!--                    &lt;!&ndash; Maven compiler plugin &ndash;&gt;-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                        <version>${maven-compiler-plugin.version}</version>-->
+<!--                        <configuration>-->
+<!--                            <source>${java.version}</source>-->
+<!--                            <target>${java.version}</target>-->
+<!--                            <testSource>${java.version}</testSource>-->
+<!--                            <testTarget>${java.version}</testTarget>-->
+<!--                        </configuration>-->
+<!--                    </plugin>-->
+<!--                    &lt;!&ndash; Edit MANIFEST.MF &ndash;&gt;-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-jar-plugin</artifactId>-->
+<!--                        <version>${maven-jar-plugin.version}</version>-->
+<!--                        <configuration>-->
+<!--                            <archive>-->
+<!--                                <manifestEntries>-->
+<!--                                    <Implementation-Title>${project.artifactId}</Implementation-Title>-->
+<!--                                    <Implementation-Version>${project.version}</Implementation-Version>-->
+<!--                                </manifestEntries>-->
+<!--                            </archive>-->
+<!--                        </configuration>-->
+<!--                    </plugin>-->
+<!--                </plugins>-->
+<!--            </build>-->
+<!--        </profile>-->
+<!--    </profiles>-->
+
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>releases</name>
+            <url>http://172.21.11.26:8081/artifactory/libs-release-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>snapshots</name>
+            <url>http://172.21.11.26:8081/artifactory/libs-snapshot-local</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>
